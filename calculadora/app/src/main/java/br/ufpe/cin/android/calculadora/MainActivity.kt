@@ -2,12 +2,73 @@ package br.ufpe.cin.android.calculadora
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
+    var expressionToEvaluate: String = "";
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        createButtonListeners()
+    }
+
+    fun createButtonListeners() {
+        val expressionDisplayer = findViewById<EditText>(R.id.text_calc)
+        val expressionInfo = findViewById<TextView>(R.id.text_info)
+
+        val buttonListeners = setOf(
+            findViewById<Button>(R.id.btn_0),
+            findViewById<Button>(R.id.btn_1),
+            findViewById<Button>(R.id.btn_2),
+            findViewById<Button>(R.id.btn_3),
+            findViewById<Button>(R.id.btn_4),
+            findViewById<Button>(R.id.btn_5),
+            findViewById<Button>(R.id.btn_6),
+            findViewById<Button>(R.id.btn_7),
+            findViewById<Button>(R.id.btn_8),
+            findViewById<Button>(R.id.btn_9),
+            findViewById<Button>(R.id.btn_Dot),
+            findViewById<Button>(R.id.btn_Add),
+            findViewById<Button>(R.id.btn_Multiply),
+            findViewById<Button>(R.id.btn_Subtract),
+            findViewById<Button>(R.id.btn_Divide),
+            findViewById<Button>(R.id.btn_LParen),
+            findViewById<Button>(R.id.btn_RParen),
+            findViewById<Button>(R.id.btn_Power))
+
+        buttonListeners.map {
+            listener -> listener.setOnClickListener {
+                expressionToEvaluate += listener.text.toString();
+                expressionDisplayer.setText(expressionToEvaluate)
+            }
+        }
+
+        val equalListener = findViewById<Button>(R.id.btn_Equal)
+
+        equalListener.setOnClickListener {
+            try {
+                val result = eval(expressionToEvaluate).toString()
+                expressionInfo.text = result
+            } catch (e : RuntimeException) {
+                Toast.makeText(this@MainActivity, e.message, Toast.LENGTH_SHORT).show()
+            } finally {
+                expressionToEvaluate = ""
+                expressionDisplayer.setText("")
+            }
+        }
+
+        val clearListener = findViewById<Button>(R.id.btn_Clear)
+
+        clearListener.setOnClickListener {
+            expressionDisplayer.setText("")
+            expressionToEvaluate = ""
+        }
     }
 
 
