@@ -225,8 +225,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" tools:layout_editor_absoluteY="512dp" tools:layout_editor_absoluteX="32dp"
-            android:id="@+id/constraintLayout4">
+            android:orientation="horizontal" tools:layout_editor_absoluteX="32dp"
+            android:id="@+id/constraintLayout4" android:layout_marginBottom="128dp"
+            app:layout_constraintBottom_toBottomOf="parent">
 
         <Button
                 android:id="@+id/btn_LParen"
