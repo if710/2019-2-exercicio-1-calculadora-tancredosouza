@@ -2,7 +2,6 @@ package br.ufpe.cin.android.calculadora
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -11,6 +10,7 @@ import android.widget.Toast
 class MainActivity : AppCompatActivity() {
     var expressionToEvaluate: String = "";
 
+    // Criação dos listeners e aplicação
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -18,10 +18,11 @@ class MainActivity : AppCompatActivity() {
         val expressionDisplayer = findViewById<EditText>(R.id.text_calc)
         val expressionInfo = findViewById<TextView>(R.id.text_info)
 
-        val expressionCalculated = savedInstanceState?.getString("expression");
+        // Restauração do estado anterior
+        val expressionFromPreviousState = savedInstanceState?.getString("expression");
 
-        if (expressionCalculated != null)
-            expressionToEvaluate = expressionCalculated
+        if (expressionFromPreviousState != null)
+            expressionToEvaluate = expressionFromPreviousState
 
         expressionInfo.text = savedInstanceState?.getString("result")
 
@@ -35,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
     }
 
+    // Criar listeners pros botões
     fun createButtonListeners() {
         val expressionDisplayer = findViewById<EditText>(R.id.text_calc)
         val expressionInfo = findViewById<TextView>(R.id.text_info)
