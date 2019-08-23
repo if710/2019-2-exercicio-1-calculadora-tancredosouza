@@ -2,6 +2,7 @@ package br.ufpe.cin.android.calculadora
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -10,12 +11,28 @@ import android.widget.Toast
 class MainActivity : AppCompatActivity() {
     var expressionToEvaluate: String = "";
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val expressionDisplayer = findViewById<EditText>(R.id.text_calc)
+        val expressionInfo = findViewById<TextView>(R.id.text_info)
+
+        val expressionCalculated = savedInstanceState?.getString("expression");
+
+        if (expressionCalculated != null)
+            expressionToEvaluate = expressionCalculated
+
+        expressionInfo.text = savedInstanceState?.getString("result")
+
         createButtonListeners()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        val expressionInfo = findViewById<TextView>(R.id.text_info)
+        outState.putString("expression", expressionToEvaluate)
+        outState.putString("result", expressionInfo.text.toString())
+        super.onSaveInstanceState(outState)
     }
 
     fun createButtonListeners() {
